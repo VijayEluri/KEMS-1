@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import main.newstrategy.cpl.configurable.comparator.EmersonComparable;
 import main.newstrategy.cpl.configurable.comparator.ISignedFormulaComparator;
 import main.newstrategy.cpl.configurable.comparator.InsertionOrderSignedFormulaComparator;
 import main.newstrategy.cpl.configurable.comparator.NormalFormulaOrderSignedFormulaComparator;
@@ -137,28 +138,43 @@ public class PBCandidateList {
 	}
 
 	public void sort(ISignedFormulaComparator comparator) {
+	  //TODO SORT EMERSON - consistência
+		if (String.valueOf(comparator).equals(
+				"EmersonComparator"
+			)) {
 
-		if (!comparator.getComparatorDescriptor().equals(
-				InsertionOrderSignedFormulaComparator.DESCRIPTOR)
-				&& _changed) {
-			if (comparator.getComparatorDescriptor().equals(
-					NormalFormulaOrderSignedFormulaComparator.DESCRIPTOR)) {
-				// string-order based sort???
-				// TODO SORT ASPECT
-				Collections.sort(_sfl);
-
-			} else {
+			Collections.sort(_sfl, comparator);
+			
+		} else {
+			
+			if (!comparator.getComparatorDescriptor().equals(
+					InsertionOrderSignedFormulaComparator.DESCRIPTOR)
+					&& _changed) {
+				
 				if (comparator.getComparatorDescriptor().equals(
-						ReverseInsertionOrderSignedFormulaComparator.DESCRIPTOR)) {
+						NormalFormulaOrderSignedFormulaComparator.DESCRIPTOR)) {
+				
+					// string-order based sort???
 					// TODO SORT ASPECT
-					reverseInsertionOrderSort();
+					Collections.sort(_sfl);
+					
 				} else {
-					// TODO SORT ASPECT
-					Collections.sort(_sfl, comparator);
+
+					if (comparator.getComparatorDescriptor().equals(
+							ReverseInsertionOrderSignedFormulaComparator.DESCRIPTOR)) {
+						
+						// TODO SORT ASPECT
+						reverseInsertionOrderSort();
+					} else {
+						// TODO SORT ASPECT
+						Collections.sort(_sfl, comparator);
+					}
 				}
+			} 
+			else {
+
 			}
 		}
-
 	}
 
 	private void reverseInsertionOrderSort() {

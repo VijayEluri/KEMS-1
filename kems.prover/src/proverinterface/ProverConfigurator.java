@@ -54,6 +54,9 @@ import main.newstrategy.simple.backjumping.BackjumpingSimpleStrategy;
 import main.newstrategy.simple.learning.LearningSimpleStrategy;
 import main.newstrategy.simple.newlearning.NewLearningSimpleStrategy;
 
+//Emerson Debug
+import main.newstrategy.cpl.configurable.comparator.EmersonComparable;
+
 /**
  * The frame that allows the user to configure the prover. It allows him/her to
  * choose the strategy, the parser used, the naumber of times to run each
@@ -105,7 +108,7 @@ public class ProverConfigurator extends JFrame implements ActionListener {
 	private static final String MCI_LOGIC = "mCi - Another Propositional Logic of Formal Inconcistency";
 
 	private static final String C1_LOGIC = "C1 - A Propositional Paraconsistent Logic";
-
+	
 	private static final String SATS5_PARSER = "sats5";
 
 	// private static final String SATLFI_PARSER = "satlfi";
@@ -137,7 +140,7 @@ public class ProverConfigurator extends JFrame implements ActionListener {
 	private static final String[] C1_STRATEGY_NAMES = new String[] { C1SimpleStrategy.class.getName() };
 
 	private static final String[] LOGIC_NAMES = new String[] { CPL_LOGIC, MBC_LOGIC, MCI_LOGIC,
-			C1_LOGIC };
+			C1_LOGIC};
 
 	private final Map<String, String> strategyMap;
 
@@ -291,7 +294,9 @@ public class ProverConfigurator extends JFrame implements ActionListener {
 				new ComplexitySignedFormulaComparator(ComplexitySignedFormulaComparator.ASCENDING),
 				new ComplexitySignedFormulaComparator(ComplexitySignedFormulaComparator.DESCENDING),
 				new NormalFormulaOrderSignedFormulaComparator(),
-				new ReverseFormulaOrderSignedFormulaComparator() });
+				new ReverseFormulaOrderSignedFormulaComparator(),
+				new EmersonComparable()
+				});
 		signedFormulaComparatorCombo.setEnabled(true);
 		// signedFormulaComparatorCombo.addActionListener(this);
 		signedFormulaComparatorPanel.add(signedFormulaComparatorLabel);
@@ -607,7 +612,6 @@ public class ProverConfigurator extends JFrame implements ActionListener {
 					MCIConfigurableSimpleStrategy.class.getSimpleName())) {
 				signedFormulaComparatorCombo.setEnabled(true);
 			}
-			
 
 		}
 	}
@@ -753,7 +757,6 @@ public class ProverConfigurator extends JFrame implements ActionListener {
 	}
 
 	public ProverConfiguration createProverConfigurationWithCurrentChoices() {
-
 		ProverConfiguration pc = new ProverConfiguration(getStrategyName());
 		pc.setStrategyFullClassName(findClassName(getStrategyName()));
 		pc.setFirstParsingLibName(getFirstParsingLibName());
